@@ -46,12 +46,12 @@ type DiagnosticFailure = {
 /** Freeze failure selection now; read diagnostics once after owned finalization. */
 export const captureJadxFailure = (
   context: FailureContext,
-): (() => AnalysisError) => {
+): ((finalized?: boolean) => AnalysisError) => {
   const observed = observeJadxFailure(context);
   const partial = context.session?.partialObservation();
   let projected: AnalysisError | undefined;
-  return () => {
-    if (projected === undefined) {
+  return (finalized = false) => {
+    if (projected === undefined || finalized) {
       projected =
         observed instanceof AnalysisError
           ? observed
