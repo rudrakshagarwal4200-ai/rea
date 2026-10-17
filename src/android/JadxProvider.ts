@@ -560,7 +560,7 @@ export class JadxProvider implements AndroidAnalysisPort {
         reportedErrors: [],
       };
       const retired = await this.#retire();
-      return retired.ok ? err(failure()) : retired;
+      return retired.ok ? err(failure(true)) : retired;
     }
   }
 }
